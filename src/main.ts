@@ -15,7 +15,7 @@ function dameCarta() {
 	let carta = Math.floor(Math.random() * 10 + 1);
 
 	if (carta > 7) {
-		carta = 0.5;
+		carta = carta + 2;
 	}
 }
 
