@@ -105,9 +105,8 @@ button:focus-visible {
 }
 
 .cards {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  max-width: 250px;
+  margin: 0 auto;
 }
 
 .cards__item {
@@ -115,7 +114,7 @@ button:focus-visible {
   position: relative;
 }
 
-.cards__item img {
+.cards__item-img {
   position: absolute;
   top: 0;
   left: 0;
