@@ -128,3 +128,12 @@ button:focus-visible {
   font-size: 2rem;
   font-weight: bold;
 }
+
+.reset {
+  background-color: rgb(10, 194, 68);
+  color: white;
+}
+
+.reset:hover {
+  background-color: rgb(33, 167, 105);
+}
