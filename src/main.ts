@@ -178,11 +178,13 @@ const ejecutarAccionesBotonMePlanto = (): void => {
 const empezarPartida = (): void => {
 	puntuacionTotal = 0;
 	const cartaInicial = 0;
-	const urlImg = obtenerImagen(cartaInicial);
-	const mensaje = obtenerMensajePuntuacion(puntuacionTotal);
 
+	const urlImg = obtenerImagen(cartaInicial);
 	imprimirImagen(urlImg);
+
+	const mensaje = obtenerMensajePuntuacion(puntuacionTotal);
 	imprimirMensajePuntuacion(mensaje);
+
 	habilitarBotones(true);
 };
 
