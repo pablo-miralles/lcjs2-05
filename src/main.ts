@@ -70,26 +70,6 @@ const actualizarPuntuacionTotal = (valorCarta: number): void => {
 	puntuacionTotal += valorCarta;
 };
 
-const obtenerMensajePuntuacion = (puntuacionTotal: number): string => {
-	if (puntuacionTotal > 7.5) {
-		return (
-			"Puntos: " +
-			puntuacionTotal +
-			". " +
-			"¡Has perdido! Te has pasado de 7.5 puntos."
-		);
-	} else if (puntuacionTotal === 7.5) {
-		return (
-			"Puntos: " +
-			puntuacionTotal +
-			". " +
-			"¡Lo has clavado! ¡Enhorabuena!"
-		);
-	} else {
-		return "Puntos: " + puntuacionTotal;
-	}
-};
-
 const imprimirMensajePuntuacion = (mensaje: string): void => {
 	if (
 		contenedorMensajePuntuacion &&
@@ -116,15 +96,6 @@ const obtenerMensajeMePlanto = (puntuacionTotal: number): string => {
 	}
 };
 
-const imprimirMensajeMePlanto = (mensaje: string): void => {
-	if (
-		contenedorMensajePuntuacion &&
-		contenedorMensajePuntuacion instanceof HTMLDivElement
-	) {
-		contenedorMensajePuntuacion.innerHTML = mensaje;
-	}
-};
-
 const habilitarBotones = (esVerdadero: boolean): void => {
 	if (botonDameCarta && botonDameCarta instanceof HTMLButtonElement) {
 		if (esVerdadero) {
@@ -147,9 +118,24 @@ const habilitarBotones = (esVerdadero: boolean): void => {
 };
 
 const checkearSiPuedeSeguirJugando = (puntuacionTotal: number): void => {
-	if (puntuacionTotal >= 7.5) {
+	if (puntuacionTotal > 7.5) {
+		imprimirMensajePuntuacion(
+			"Puntos: " +
+				puntuacionTotal +
+				". " +
+				"¡Has perdido! Te has pasado de 7.5 puntos."
+		);
+		habilitarBotones(false);
+	} else if (puntuacionTotal === 7.5) {
+		imprimirMensajePuntuacion(
+			"Puntos: " +
+				puntuacionTotal +
+				". " +
+				"¡Lo has clavado! ¡Enhorabuena!"
+		);
 		habilitarBotones(false);
 	} else {
+		imprimirMensajePuntuacion("Puntos: " + puntuacionTotal);
 		habilitarBotones(true);
 	}
 };
@@ -162,15 +148,12 @@ const ejecutarAccionesBotonDameCarta = (): void => {
 	const urlImg = obtenerImagen(cartaAletoria);
 	imprimirImagen(urlImg);
 
-	const mensaje = obtenerMensajePuntuacion(puntuacionTotal);
-	imprimirMensajePuntuacion(mensaje);
-
 	checkearSiPuedeSeguirJugando(puntuacionTotal);
 };
 
 const ejecutarAccionesBotonMePlanto = (): void => {
 	const mensaje = obtenerMensajeMePlanto(puntuacionTotal);
-	imprimirMensajeMePlanto(mensaje);
+	imprimirMensajePuntuacion(mensaje);
 
 	habilitarBotones(false);
 };
@@ -182,8 +165,7 @@ const empezarPartida = (): void => {
 	const urlImg = obtenerImagen(cartaInicial);
 	imprimirImagen(urlImg);
 
-	const mensaje = obtenerMensajePuntuacion(puntuacionTotal);
-	imprimirMensajePuntuacion(mensaje);
+	imprimirMensajePuntuacion("Puntos: " + puntuacionTotal);
 
 	habilitarBotones(true);
 };
