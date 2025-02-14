@@ -1,62 +1,55 @@
 import "./style.css";
 
-/*
-Primero declaro las variables globales:
-	1. Variable para puntuación total
-	2. Constantes para elementos UI: img, botones y div donde se imprimirá el mensaje
-	3. Constantes para las url de imagen en un objeto.
-*/
-
 let puntuacionTotal = 0;
-/* const elementoImagen = document.querySelector(".cards__item-img");
- */
-// const contenedorMensajePuntuacion = document.querySelector(".puntuacion-total");
+const elementoImagen = document.querySelector(".cards__item-img");
+const contenedorMensajePuntuacion = document.querySelector(".puntuacion-total");
 const botonDameCarta = document.querySelector(".dame-carta");
 const botonMePlanto = document.querySelector(".me-planto");
-// const botonReset = document.querySelector(".reset");
-/* 
-const linksDeCartas = {
-	back: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg",
-	front1: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg",
-	front2: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg",
-	front3: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg",
-	front4: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg",
-	front5: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg",
-	front6: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg",
-	front7: "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg",
-	front10:
-		"https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg",
-	front11:
-		"https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg",
-	front12:
-		"https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg",
+const botonReset = document.querySelector(".reset");
+
+const obtenerImagen = (carta: number): string => {
+	switch (carta) {
+		case 1:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/1_as-copas.jpg";
+			break;
+		case 2:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/2_dos-copas.jpg";
+			break;
+		case 3:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/3_tres-copas.jpg";
+			break;
+		case 4:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/4_cuatro-copas.jpg";
+			break;
+		case 5:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/5_cinco-copas.jpg";
+			break;
+		case 6:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/6_seis-copas.jpg";
+			break;
+		case 7:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/7_siete-copas.jpg";
+			break;
+		case 10:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/10_sota-copas.jpg";
+			break;
+		case 11:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/11_caballo-copas.jpg";
+			break;
+		case 12:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/copas/12_rey-copas.jpg";
+			break;
+		default:
+			return "https://raw.githubusercontent.com/Lemoncode/fotos-ejemplos/main/cartas/back.jpg";
+			break;
+	}
 };
-*/
 
-/*
-Ahora creo una función que inicia la partida, dándole los ajustes initicales.
-También tiene que ejecutarse una vez, cuando toda la UI haya cargado. Necesito:
-- [HECHO] Que resetee la puntuación a 0
-- Que imprima los puntos actuales en el contenedorMensajePuntuacion
-- Que el elementoImagen pase a tener la imagen del back
-- Que los botones se habiliten, si estaban deshabilitados
-*/
-
-const empezarPartida = (): void => {
-	puntuacionTotal = 0;
+const imprimirImagen = (urlImagen: string): void => {
+	if (elementoImagen && elementoImagen instanceof HTMLImageElement) {
+		elementoImagen.src = urlImagen;
+	}
 };
-
-document.addEventListener("DOMContentLoaded", empezarPartida);
-
-/*
-Ahora vamos a por los botones. Empezamos con "botonDameCarta". Este tiene que hacer lo siguiente:
-- Se tiene que seleccionar una carta de forma aleatoria. Según las reglas, del 1-7 o del 10-12.
-- Guardaremos esa carta obtenida en una variable.
-- Calcularemos cuánto vale esa carta obtenida.
-- Sumaremos ese valor a la puntuacionTotal.
-- Actualizamos el mensaje de contenedorMensajePuntuacion
-- Checkearemos si puede seguir jugando
-*/
 
 const obtenerCartaAleatoria = (): number => {
 	let randomNum = Math.floor(Math.random() * 10);
@@ -65,7 +58,7 @@ const obtenerCartaAleatoria = (): number => {
 	return cartas[randomNum];
 };
 
-const obtenerValorCarta = (carta: number): number => {
+const obtenerValorCartaAleatoria = (carta: number): number => {
 	if (carta > 7) {
 		return 0.5;
 	}
@@ -77,25 +70,60 @@ const actualizarPuntuacionTotal = (valorCarta: number): void => {
 	puntuacionTotal += valorCarta;
 };
 
-/* const actualizarMensajePuntuacion = (puntuacionTotal: number): string => {
-	let mensajeInicial = obtenerMensajePuntuacion();
-	let mensajeFinal = "";
-
-	if (puntuacionTotal === 0) {
-		mensajeFinal = "";
-	} else if (puntuacionTotal > 7.5) {
-		mensajeFinal = "¡Has perdido! Te has pasado de 7.5 puntos.";
+const obtenerMensajePuntuacion = (puntuacionTotal: number): string => {
+	if (puntuacionTotal > 7.5) {
+		return (
+			"Puntos: " +
+			puntuacionTotal +
+			". " +
+			"¡Has perdido! Te has pasado de 7.5 puntos."
+		);
 	} else if (puntuacionTotal === 7.5) {
-		mensajeFinal = "¡Lo has clavado! ¡Enhorabuena!";
-	} else if (puntuacionTotal >= 6 && puntuacionTotal < 7.5) {
-		mensajeFinal = "Casi casi...";
-	} else if (puntuacionTotal > 4 && puntuacionTotal < 6) {
-		mensajeFinal = "Te ha entrado el canguelo eh?";
-	} else if (puntuacionTotal <= 4 && puntuacionTotal > 0) {
-		mensajeFinal = "Has sido muy conservador";
+		return (
+			"Puntos: " +
+			puntuacionTotal +
+			". " +
+			"¡Lo has clavado! ¡Enhorabuena!"
+		);
+	} else {
+		return "Puntos: " + puntuacionTotal;
 	}
-	return mensajeInicial + ". " + "Puntos: " + mensajeFinal;
-}; */
+};
+
+const imprimirMensajePuntuacion = (mensaje: string): void => {
+	if (
+		contenedorMensajePuntuacion &&
+		contenedorMensajePuntuacion instanceof HTMLDivElement
+	) {
+		contenedorMensajePuntuacion.innerHTML = mensaje;
+	}
+};
+
+const obtenerMensajeMePlanto = (puntuacionTotal: number): string => {
+	if (puntuacionTotal >= 6 && puntuacionTotal < 7.7) {
+		return "Puntos: " + puntuacionTotal + ". " + "Casi casi...";
+	} else if (puntuacionTotal > 4 && puntuacionTotal < 6) {
+		return (
+			"Puntos: " +
+			puntuacionTotal +
+			". " +
+			"Te ha entrado el canguelo eh?"
+		);
+	} else if (puntuacionTotal <= 4) {
+		return "Puntos: " + puntuacionTotal + ". " + "Has sido muy conservador";
+	} else {
+		return "Puntos: " + puntuacionTotal;
+	}
+};
+
+const imprimirMensajeMePlanto = (mensaje: string): void => {
+	if (
+		contenedorMensajePuntuacion &&
+		contenedorMensajePuntuacion instanceof HTMLDivElement
+	) {
+		contenedorMensajePuntuacion.innerHTML = mensaje;
+	}
+};
 
 const habilitarBotones = (esVerdadero: boolean): void => {
 	if (botonDameCarta && botonDameCarta instanceof HTMLButtonElement) {
@@ -126,14 +154,48 @@ const checkearSiPuedeSeguirJugando = (puntuacionTotal: number): void => {
 	}
 };
 
-const ejecutarAccionesBotonDameCarta = () => {
-	let cartaAletoria = obtenerCartaAleatoria();
-	let valorCarta = obtenerValorCarta(cartaAletoria);
+const ejecutarAccionesBotonDameCarta = (): void => {
+	const cartaAletoria = obtenerCartaAleatoria();
+	const valorCarta = obtenerValorCartaAleatoria(cartaAletoria);
 	actualizarPuntuacionTotal(valorCarta);
+
+	const urlImg = obtenerImagen(cartaAletoria);
+	imprimirImagen(urlImg);
+
+	const mensaje = obtenerMensajePuntuacion(puntuacionTotal);
+	imprimirMensajePuntuacion(mensaje);
+
 	checkearSiPuedeSeguirJugando(puntuacionTotal);
-	console.log(puntuacionTotal);
 };
+
+const ejecutarAccionesBotonMePlanto = (): void => {
+	const mensaje = obtenerMensajeMePlanto(puntuacionTotal);
+	imprimirMensajeMePlanto(mensaje);
+
+	habilitarBotones(false);
+};
+
+const empezarPartida = (): void => {
+	puntuacionTotal = 0;
+	const cartaInicial = 0;
+	const urlImg = obtenerImagen(cartaInicial);
+	const mensaje = obtenerMensajePuntuacion(puntuacionTotal);
+
+	imprimirImagen(urlImg);
+	imprimirMensajePuntuacion(mensaje);
+	habilitarBotones(true);
+};
+
+document.addEventListener("DOMContentLoaded", empezarPartida);
+
+if (botonReset && botonReset instanceof HTMLButtonElement) {
+	botonReset.addEventListener("click", empezarPartida);
+}
 
 if (botonDameCarta && botonDameCarta instanceof HTMLButtonElement) {
 	botonDameCarta.addEventListener("click", ejecutarAccionesBotonDameCarta);
+}
+
+if (botonMePlanto && botonMePlanto instanceof HTMLButtonElement) {
+	botonMePlanto.addEventListener("click", ejecutarAccionesBotonMePlanto);
 }
